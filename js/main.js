@@ -202,128 +202,197 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
 
-  /* ---------- Booking Widget Tabs & Dynamic Search Grid ---------- */
-  var bookingTabs = document.querySelectorAll('.booking-tab');
-  var col1Label = document.getElementById('col1Label');
-  var col1Val = document.getElementById('col1Val');
-  var col1Sub = document.getElementById('col1Sub');
+  /* ---------- ZivoPlus Bespoke Travel Booking Suite ---------- */
+  var zivoNavItems = document.querySelectorAll('.zivo-nav-item');
+  var deckTitle = document.getElementById('deckTitle');
+  var deckDesc = document.getElementById('deckDesc');
+  var box1Label = document.getElementById('box1Label');
+  var zivoPrimaryInput = document.getElementById('zivoPrimaryInput');
+  var box1Hint = document.getElementById('box1Hint');
+  var box2Label = document.getElementById('box2Label');
+  var zivoDateStart = document.getElementById('zivoDateStart');
+  var box2Hint = document.getElementById('box2Hint');
+  var box3Label = document.getElementById('box3Label');
+  var zivoDateEnd = document.getElementById('zivoDateEnd');
+  var box3Hint = document.getElementById('box3Hint');
+  var box4Label = document.getElementById('box4Label');
+  var zivoOptionSelect = document.getElementById('zivoOptionSelect');
+  var box4Hint = document.getElementById('box4Hint');
+  var zivoSearchBtn = document.getElementById('zivoSearchBtn');
+  var zivoSearchBtnText = document.getElementById('zivoSearchBtnText');
 
-  var col2Label = document.getElementById('col2Label');
-  var col2Val = document.getElementById('col2Val');
-  var col2Sub = document.getElementById('col2Sub');
+  // Helper: Format Date to YYYY-MM-DD
+  function formatDate(d) {
+    var year = d.getFullYear();
+    var month = String(d.getMonth() + 1).padStart(2, '0');
+    var day = String(d.getDate()).padStart(2, '0');
+    return year + '-' + month + '-' + day;
+  }
 
-  var col3Label = document.getElementById('col3Label');
-  var col3Val = document.getElementById('col3Val');
-  var col3Sub = document.getElementById('col3Sub');
+  // Helper: Format Date to readable text
+  function formatReadableDate(dateStr) {
+    if (!dateStr) return '';
+    var parts = dateStr.split('-');
+    if (parts.length !== 3) return dateStr;
+    var d = new Date(parts[0], parts[1] - 1, parts[2]);
+    var options = { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' };
+    return d.toLocaleDateString('en-IN', options);
+  }
 
-  var col4Label = document.getElementById('col4Label');
-  var col4Val = document.getElementById('col4Val');
-  var col4Sub = document.getElementById('col4Sub');
+  // Initialize Dates
+  var now = new Date();
+  var tomorrow = new Date(now.getTime() + 86400000);
+  var dayAfter = new Date(now.getTime() + 86400000 * 3);
 
-  var bookingRadios = document.getElementById('bookingRadios');
-  var bookingSubbarText = document.getElementById('bookingSubbarText');
-  var recentSearchItem = document.getElementById('recentSearchItem');
+  if (zivoDateStart && zivoDateEnd) {
+    var todayStr = formatDate(now);
+    var startStr = formatDate(tomorrow);
+    var endStr = formatDate(dayAfter);
 
-  var tabData = {
+    zivoDateStart.min = todayStr;
+    zivoDateStart.value = startStr;
+    if (box2Hint) box2Hint.textContent = formatReadableDate(startStr);
+
+    zivoDateEnd.min = startStr;
+    zivoDateEnd.value = endStr;
+    if (box3Hint) box3Hint.textContent = formatReadableDate(endStr);
+
+    // Update hints live when dates are changed
+    zivoDateStart.addEventListener('change', function () {
+      if (box2Hint) box2Hint.textContent = formatReadableDate(this.value);
+      if (zivoDateEnd && zivoDateEnd.value < this.value) {
+        zivoDateEnd.min = this.value;
+        var nextDay = new Date(new Date(this.value).getTime() + 86400000);
+        zivoDateEnd.value = formatDate(nextDay);
+        if (box3Hint) box3Hint.textContent = formatReadableDate(zivoDateEnd.value);
+      }
+    });
+
+    zivoDateEnd.addEventListener('change', function () {
+      if (box3Hint) box3Hint.textContent = formatReadableDate(this.value);
+    });
+  }
+
+  // Service Definitions (Hotels, Flights, Trains, Buses)
+  var currentService = 'hotels';
+  var serviceConfigs = {
     hotels: {
-      radios: '<label class="booking-radio-option"><input type="radio" name="bookingOption" checked><span>Upto 4 Rooms</span></label><label class="booking-radio-option"><input type="radio" name="bookingOption"><span>Group Deals</span> <span class="badge-new">NEW</span></label>',
-      tagline: 'Book Domestic & International Properties Online',
-      col1: { label: 'City, Property Name Or Location', val: 'Z Bliss Suites, BKC', sub: 'Mumbai, India' },
-      col2: { label: 'Check-In <span class="chevron">&#9662;</span>', val: '<span class="date-large">18</span> <span class="date-month">Oct\'26</span>', sub: 'Sunday' },
-      col3: { label: 'Check-Out <span class="chevron">&#9662;</span>', val: '<span class="date-large">20</span> <span class="date-month">Oct\'26</span>', sub: 'Tuesday' },
-      col4: { label: 'Rooms & Guests <span class="chevron">&#9662;</span>', val: '1 Room, 2 Adults', sub: 'Economy / Deluxe' },
-      recent: 'Z Bliss Suites, BKC • 18 Oct - 20 Oct'
+      title: 'Hotels & Accommodations',
+      desc: 'Search verified hotels, business stays, and boutique accommodations',
+      box1Label: '<span class="zivo-label-icon">&#128205;</span> Destination or Hotel',
+      placeholder: 'Where would you like to stay? (e.g. Mumbai, Goa, Delhi...)',
+      box1Hint: 'City, landmark, or accommodation',
+      box2Label: '<span class="zivo-label-icon">&#128197;</span> Check-In Date',
+      box3Label: '<span class="zivo-label-icon">&#128197;</span> Check-Out Date',
+      box4Label: '<span class="zivo-label-icon">&#128101;</span> Rooms & Guests',
+      options: [
+        { val: '1 Room, 2 Guests', text: '1 Room, 2 Guests (Standard)' },
+        { val: '1 Room, 1 Guest', text: '1 Room, 1 Guest (Solo)' },
+        { val: '2 Rooms, 4 Guests', text: '2 Rooms, 4 Guests (Family)' },
+        { val: '3+ Rooms', text: '3+ Rooms (Group Deals)' }
+      ],
+      box4Hint: 'Economy • Deluxe • Suites',
+      btnText: 'Check Availability'
     },
     flights: {
-      radios: '<label class="booking-radio-option"><input type="radio" name="bookingOption" checked><span>One Way</span></label><label class="booking-radio-option"><input type="radio" name="bookingOption"><span>Round Trip</span></label><label class="booking-radio-option"><input type="radio" name="bookingOption"><span>Multi-City</span></label>',
-      tagline: 'Compare & Book Domestic & International Flights',
-      col1: { label: 'From (City / Airport)', val: 'Mumbai (BOM)', sub: 'Chhatrapati Shivaji Maharaj Intl' },
-      col2: { label: 'To (City / Airport)', val: 'New Delhi (DEL)', sub: 'Indira Gandhi Intl Airport' },
-      col3: { label: 'Departure Date <span class="chevron">&#9662;</span>', val: '<span class="date-large">18</span> <span class="date-month">Oct\'26</span>', sub: 'Sunday' },
-      col4: { label: 'Travellers & Class <span class="chevron">&#9662;</span>', val: '1 Traveller', sub: 'Economy / Premium' },
-      recent: 'BOM → DEL • 18 Oct\'26 • 1 Traveller'
+      title: 'Flights & Air Travel',
+      desc: 'Compare domestic and international flights across certified airline partners',
+      box1Label: '<span class="zivo-label-icon">&#9992;</span> From (Departure City)',
+      placeholder: 'Where are you flying from? (e.g. Mumbai BOM, Delhi DEL...)',
+      box1Hint: 'Enter origin airport or city',
+      box2Label: '<span class="zivo-label-icon">&#128197;</span> Departure Date',
+      box3Label: '<span class="zivo-label-icon">&#128197;</span> Return Date',
+      box4Label: '<span class="zivo-label-icon">&#128100;</span> Travellers & Class',
+      options: [
+        { val: '1 Passenger, Economy', text: '1 Passenger, Economy' },
+        { val: '1 Passenger, Premium Economy', text: '1 Passenger, Premium Economy' },
+        { val: '1 Passenger, Business', text: '1 Passenger, Business Class' },
+        { val: '2 Passengers, Economy', text: '2 Passengers, Economy' },
+        { val: 'Family / Group', text: 'Family / Group (3+ Passengers)' }
+      ],
+      box4Hint: 'Direct & connecting flight routes',
+      btnText: 'Search Flights'
     },
     trains: {
-      radios: '<label class="booking-radio-option"><input type="radio" name="bookingOption" checked><span>Book Train Tickets</span></label><label class="booking-radio-option"><input type="radio" name="bookingOption"><span>Check PNR Status</span></label><label class="booking-radio-option"><input type="radio" name="bookingOption"><span>Live Train Status</span></label>',
-      tagline: 'Authorized IRCTC Partner Booking Under Development',
-      col1: { label: 'From Station', val: 'NDLS, New Delhi', sub: 'New Delhi Railway Station' },
-      col2: { label: 'To Station', val: 'BCT, Mumbai Central', sub: 'Mumbai Central Station' },
-      col3: { label: 'Travel Date <span class="chevron">&#9662;</span>', val: '<span class="date-large">18</span> <span class="date-month">Oct\'26</span>', sub: 'Sunday' },
-      col4: { label: 'Class & Quota <span class="chevron">&#9662;</span>', val: 'All Classes', sub: 'General Quota' },
-      recent: 'NDLS → BCT • 18 Oct\'26 • 3AC'
+      title: 'Trains & Railway Bookings',
+      desc: 'Direct rail network ticketing under development for Indian Railways',
+      box1Label: '<span class="zivo-label-icon">&#128646;</span> Origin Station',
+      placeholder: 'Enter departure station (e.g. New Delhi NDLS, Mumbai BCT...)',
+      box1Hint: 'Station code or city name',
+      box2Label: '<span class="zivo-label-icon">&#128197;</span> Journey Date',
+      box3Label: '<span class="zivo-label-icon">&#128197;</span> Return Date',
+      box4Label: '<span class="zivo-label-icon">&#127915;</span> Class & Quota',
+      options: [
+        { val: 'All Classes', text: 'All Classes (General Quota)' },
+        { val: 'Sleeper (SL)', text: 'Sleeper Class (SL)' },
+        { val: 'AC 3 Tier (3A)', text: 'AC 3 Tier (3A)' },
+        { val: 'AC 2 Tier (2A)', text: 'AC 2 Tier (2A)' },
+        { val: 'AC 1st Class (1A)', text: 'AC 1st Class (1A)' },
+        { val: 'Tatkal', text: 'Tatkal Quota' }
+      ],
+      box4Hint: 'Live status & confirmed berths',
+      btnText: 'Find Trains'
     },
     buses: {
-      radios: '<label class="booking-radio-option"><input type="radio" name="bookingOption" checked><span>All Routes</span></label><label class="booking-radio-option"><input type="radio" name="bookingOption"><span>AC Sleeper</span></label><label class="booking-radio-option"><input type="radio" name="bookingOption"><span>State RTCs</span></label>',
-      tagline: 'Verified Private & State RTC Bus Bookings',
-      col1: { label: 'From City', val: 'Bengaluru', sub: 'Majestic / Silk Board' },
-      col2: { label: 'To City', val: 'Hyderabad', sub: 'MGBS / Ameerpet' },
-      col3: { label: 'Travel Date <span class="chevron">&#9662;</span>', val: '<span class="date-large">18</span> <span class="date-month">Oct\'26</span>', sub: 'Sunday' },
-      col4: { label: 'Bus Type <span class="chevron">&#9662;</span>', val: 'AC Sleeper (2+1)', sub: 'Verified Operators' },
-      recent: 'Bengaluru → Hyderabad • 18 Oct\'26'
-    },
-    villas: {
-      radios: '<label class="booking-radio-option"><input type="radio" name="bookingOption" checked><span>Entire Villa</span></label><label class="booking-radio-option"><input type="radio" name="bookingOption"><span>Homestays</span></label><label class="booking-radio-option"><input type="radio" name="bookingOption"><span>Pet Friendly</span></label>',
-      tagline: 'Private Villas, Cottages & Homestays Across India',
-      col1: { label: 'Destination / Property', val: 'Goa, North Goa', sub: 'Candolim / Calangute' },
-      col2: { label: 'Check-In <span class="chevron">&#9662;</span>', val: '<span class="date-large">18</span> <span class="date-month">Oct\'26</span>', sub: 'Sunday' },
-      col3: { label: 'Check-Out <span class="chevron">&#9662;</span>', val: '<span class="date-large">22</span> <span class="date-month">Oct\'26</span>', sub: 'Thursday' },
-      col4: { label: 'Guests <span class="chevron">&#9662;</span>', val: '4 Guests', sub: '2 Bedrooms' },
-      recent: 'Goa Villa • 18 Oct - 22 Oct • 4 Guests'
-    },
-    packages: {
-      radios: '<label class="booking-radio-option"><input type="radio" name="bookingOption" checked><span>All Packages</span></label><label class="booking-radio-option"><input type="radio" name="bookingOption"><span>Honeymoon</span></label><label class="booking-radio-option"><input type="radio" name="bookingOption"><span>Weekend Getaways</span></label>',
-      tagline: 'Curated Travel & Holiday Experiences',
-      col1: { label: 'Explore Destination', val: 'Kashmir Valley', sub: 'Srinagar, Gulmarg, Pahalgam' },
-      col2: { label: 'Starting Month <span class="chevron">&#9662;</span>', val: '<span class="date-large">Oct</span> <span class="date-month">2026</span>', sub: '5 Nights / 6 Days' },
-      col3: { label: 'Travel Style <span class="chevron">&#9662;</span>', val: 'Family / Leisure', sub: 'Flights + Hotel + Sightseeing' },
-      col4: { label: 'Travellers <span class="chevron">&#9662;</span>', val: '2 Adults', sub: 'Customizable' },
-      recent: 'Kashmir 6D5N Package • 2 Adults'
-    },
-    cabs: {
-      radios: '<label class="booking-radio-option"><input type="radio" name="bookingOption" checked><span>Outstation One-Way</span></label><label class="booking-radio-option"><input type="radio" name="bookingOption"><span>Round Trip</span></label><label class="booking-radio-option"><input type="radio" name="bookingOption"><span>Airport Transfers</span></label>',
-      tagline: 'Reliable Intercity Cabs & Airport Rides',
-      col1: { label: 'Pickup Location', val: 'Mumbai Airport (T2)', sub: 'Sahar, Andheri East' },
-      col2: { label: 'Drop Destination', val: 'Pune City', sub: 'Shivajinagar / Hinjewadi' },
-      col3: { label: 'Pickup Date <span class="chevron">&#9662;</span>', val: '<span class="date-large">18</span> <span class="date-month">Oct\'26</span>', sub: '09:00 AM' },
-      col4: { label: 'Vehicle Type <span class="chevron">&#9662;</span>', val: 'Sedan / SUV', sub: 'AC Cab • Top Drivers' },
-      recent: 'Mumbai Airport → Pune • 18 Oct\'26'
+      title: 'Buses & Intercity Travel',
+      desc: 'Verified state transport corporations & private luxury operators',
+      box1Label: '<span class="zivo-label-icon">&#128652;</span> Boarding City',
+      placeholder: 'Enter departure city (e.g. Bengaluru, Pune, Hyderabad...)',
+      box1Hint: 'Major boarding points & bus terminals',
+      box2Label: '<span class="zivo-label-icon">&#128197;</span> Travel Date',
+      box3Label: '<span class="zivo-label-icon">&#128197;</span> Return Date',
+      box4Label: '<span class="zivo-label-icon">&#128186;</span> Bus Type & Seats',
+      options: [
+        { val: 'Any Bus Type', text: 'Any Bus Type (1 Seat)' },
+        { val: 'AC Sleeper (2+1)', text: 'AC Sleeper (2+1)' },
+        { val: 'AC Semi-Sleeper', text: 'AC Semi-Sleeper' },
+        { val: 'Volvo Multi-Axle', text: 'Volvo Multi-Axle Luxury' },
+        { val: '2+ Seats', text: '2+ Seats (Group)' }
+      ],
+      box4Hint: 'Live GPS & verified amenities',
+      btnText: 'Search Buses'
     }
   };
 
-  if (bookingTabs.length > 0) {
-    bookingTabs.forEach(function (tab) {
+  // Tab click switching
+  if (zivoNavItems.length > 0) {
+    zivoNavItems.forEach(function (tab) {
       tab.addEventListener('click', function () {
-        var tabKey = tab.getAttribute('data-tab');
-        if (!tabData[tabKey]) return;
+        var service = tab.getAttribute('data-service');
+        if (!serviceConfigs[service]) return;
 
-        bookingTabs.forEach(function (t) {
+        currentService = service;
+        zivoNavItems.forEach(function (t) {
           t.classList.remove('active');
           t.setAttribute('aria-selected', 'false');
         });
         tab.classList.add('active');
         tab.setAttribute('aria-selected', 'true');
 
-        var data = tabData[tabKey];
-        if (bookingRadios) bookingRadios.innerHTML = data.radios;
-        if (bookingSubbarText) bookingSubbarText.textContent = data.tagline;
+        var cfg = serviceConfigs[service];
+        if (deckTitle) deckTitle.textContent = cfg.title;
+        if (deckDesc) deckDesc.textContent = cfg.desc;
+        if (box1Label) box1Label.innerHTML = cfg.box1Label;
+        if (zivoPrimaryInput) {
+          zivoPrimaryInput.placeholder = cfg.placeholder;
+          zivoPrimaryInput.value = ''; // Clean & empty
+        }
+        if (box1Hint) box1Hint.textContent = cfg.box1Hint;
+        if (box2Label) box2Label.innerHTML = cfg.box2Label;
+        if (box3Label) box3Label.innerHTML = cfg.box3Label;
+        if (box4Label) box4Label.innerHTML = cfg.box4Label;
 
-        if (col1Label) col1Label.innerHTML = data.col1.label;
-        if (col1Val) col1Val.innerHTML = data.col1.val;
-        if (col1Sub) col1Sub.textContent = data.col1.sub;
-
-        if (col2Label) col2Label.innerHTML = data.col2.label;
-        if (col2Val) col2Val.innerHTML = data.col2.val;
-        if (col2Sub) col2Sub.textContent = data.col2.sub;
-
-        if (col3Label) col3Label.innerHTML = data.col3.label;
-        if (col3Val) col3Val.innerHTML = data.col3.val;
-        if (col3Sub) col3Sub.textContent = data.col3.sub;
-
-        if (col4Label) col4Label.innerHTML = data.col4.label;
-        if (col4Val) col4Val.innerHTML = data.col4.val;
-        if (col4Sub) col4Sub.textContent = data.col4.sub;
-
-        if (recentSearchItem) recentSearchItem.textContent = data.recent;
+        if (zivoOptionSelect) {
+          zivoOptionSelect.innerHTML = '';
+          cfg.options.forEach(function (opt) {
+            var el = document.createElement('option');
+            el.value = opt.val;
+            el.textContent = opt.text;
+            zivoOptionSelect.appendChild(el);
+          });
+        }
+        if (box4Hint) box4Hint.textContent = cfg.box4Hint;
+        if (zivoSearchBtnText) zivoSearchBtnText.textContent = cfg.btnText;
       });
     });
   }
@@ -332,11 +401,15 @@ document.addEventListener('DOMContentLoaded', function () {
   var bookingModalOverlay = document.getElementById('bookingModalOverlay');
   var bookingModalClose = document.getElementById('bookingModalClose');
   var bookingModalDismiss = document.getElementById('bookingModalDismiss');
-  var bookingSearchBtn = document.getElementById('bookingSearchBtn');
-  var bookingGrid = document.getElementById('bookingGrid');
+  var modalTitle = document.getElementById('modalTitle');
 
   function openBookingModal() {
     if (bookingModalOverlay) {
+      var dest = (zivoPrimaryInput && zivoPrimaryInput.value.trim()) || '';
+      var serviceName = serviceConfigs[currentService] ? serviceConfigs[currentService].title : 'Travel';
+      if (modalTitle) {
+        modalTitle.textContent = serviceName + ' — Coming Soon!';
+      }
       bookingModalOverlay.classList.add('active');
       document.body.style.overflow = 'hidden';
     }
@@ -349,16 +422,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  if (bookingSearchBtn) {
-    bookingSearchBtn.addEventListener('click', openBookingModal);
-  }
-
-  if (bookingGrid) {
-    bookingGrid.addEventListener('click', openBookingModal);
-  }
-
-  if (recentSearchItem) {
-    recentSearchItem.addEventListener('click', openBookingModal);
+  if (zivoSearchBtn) {
+    zivoSearchBtn.addEventListener('click', openBookingModal);
   }
 
   if (bookingModalClose) {

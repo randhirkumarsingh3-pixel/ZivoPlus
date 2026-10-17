@@ -113,107 +113,95 @@
         Experience a smarter, unified way to book Hotels, Flights, Trains, and Buses. ZivoPlus is building an all-in-one travel technology platform for travellers and partners.
       </p>
 
-      <!-- MakeMyTrip / Modern Travel Style Search Widget -->
-      <div class="booking-widget">
-        <!-- Floating Tabs -->
-        <div class="booking-tabs" role="tablist" aria-label="Booking Categories">
-          <button class="booking-tab active" data-tab="hotels" role="tab" aria-selected="true">
+      <!-- ZivoPlus Bespoke Travel Booking Suite -->
+      <div class="zivo-booking-suite">
+        <!-- Floating Capsule Tabs -->
+        <nav class="zivo-category-nav" role="tablist" aria-label="Travel Services">
+          <button class="zivo-nav-item active" data-service="hotels" role="tab" aria-selected="true">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16M9 7h1M14 7h1M9 11h1M14 11h1M9 15h1M14 15h1M10 21v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3"/></svg>
             <span>Hotels</span>
           </button>
-          <button class="booking-tab" data-tab="flights" role="tab" aria-selected="false">
+          <button class="zivo-nav-item" data-service="flights" role="tab" aria-selected="false">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3.5c-.5-.5-2.5 0-4 1.5L13.5 8.5 5.3 6.7c-.9-.2-1.7.1-2.1.8-.5.7-.3 1.7.4 2.2l6.5 4.9-3.2 3.2-2.3-.5c-.4-.1-.8.1-1.1.4-.4.4-.4 1 0 1.4l2.1 2.1c.4.4 1 .4 1.4 0 .3-.3.5-.7.4-1.1l-.5-2.3 3.2-3.2 4.9 6.5c.5.7 1.5.9 2.2.4.7-.4 1-1.2.8-2.1z"/></svg>
             <span>Flights</span>
           </button>
-          <button class="booking-tab" data-tab="villas" role="tab" aria-selected="false">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-            <span>Villas & Homestays</span>
-          </button>
-          <button class="booking-tab" data-tab="packages" role="tab" aria-selected="false">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M4.93 19.07 19.07 4.93"/><circle cx="12" cy="12" r="10"/></svg>
-            <span>Holiday Packages</span>
-          </button>
-          <button class="booking-tab" data-tab="trains" role="tab" aria-selected="false">
+          <button class="zivo-nav-item" data-service="trains" role="tab" aria-selected="false">
             <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="16" rx="2"/><path d="M4 11h16M12 3v8M8 15h.01M16 15h.01M7 19l-3 3M17 19l3 3"/></svg>
             <span>Trains</span>
           </button>
-          <button class="booking-tab" data-tab="buses" role="tab" aria-selected="false">
+          <button class="zivo-nav-item" data-service="buses" role="tab" aria-selected="false">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6z"/><path d="M4 11h16M4 6h16M7 15h2M15 15h2M6 19v2M18 19v2"/></svg>
             <span>Buses</span>
           </button>
-          <button class="booking-tab" data-tab="cabs" role="tab" aria-selected="false">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.5 2.8C2 11 2 11.3 2 11.6V16c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/><path d="M9 5h6"/></svg>
-            <span>Cabs</span>
-          </button>
-        </div>
+        </nav>
 
-        <!-- Search Card -->
-        <div class="booking-card">
-          <!-- Sub-bar -->
-          <div class="booking-subbar">
-            <div class="booking-radios" id="bookingRadios">
-              <label class="booking-radio-option">
-                <input type="radio" name="bookingOption" checked>
-                <span>Upto 4 Rooms</span>
-              </label>
-              <label class="booking-radio-option">
-                <input type="radio" name="bookingOption">
-                <span>Group Deals</span>
-                <span class="badge-new">NEW</span>
-              </label>
+        <!-- Main Search Deck -->
+        <div class="zivo-search-deck">
+          <div class="zivo-deck-header">
+            <div class="zivo-deck-title-area">
+              <h2 class="zivo-deck-title" id="deckTitle">Hotels &amp; Accommodations</h2>
+              <p class="zivo-deck-desc" id="deckDesc">Search verified hotels, business stays, and boutique accommodations</p>
             </div>
-            <div class="booking-subbar-tagline">
-              <span id="bookingSubbarText">Book Domestic & International Properties Online</span>
-              <span class="badge-dev">Under Development</span>
+            <div class="zivo-dev-badge">
+              <span class="zivo-pulse"></span> PRE-LAUNCH PREVIEW &bull; UNDER DEVELOPMENT
             </div>
           </div>
 
-          <!-- Dynamic Booking Grid (4 Columns) -->
-          <div class="booking-grid" id="bookingGrid">
-            <!-- Col 1: Destination / Origin -->
-            <div class="booking-col" id="col1">
-              <span class="col-label" id="col1Label">City, Property Name Or Location</span>
-              <div class="col-value" id="col1Val">Z Bliss Suites, BKC</div>
-              <span class="col-sub" id="col1Sub">Mumbai, India</span>
+          <!-- 4-Column Selectable Inputs Grid -->
+          <div class="zivo-fields-grid">
+            <!-- Box 1: Destination -->
+            <div class="zivo-input-box" id="box1">
+              <span class="zivo-label" id="box1Label"><span class="zivo-label-icon">&#128205;</span> Destination or Hotel</span>
+              <input type="text" id="zivoPrimaryInput" class="zivo-native-text" placeholder="Where would you like to stay?" value="" autocomplete="off">
+              <p class="zivo-field-hint" id="box1Hint">City, landmark, or accommodation</p>
             </div>
 
-            <!-- Col 2: Check-In / Departure -->
-            <div class="booking-col" id="col2">
-              <span class="col-label" id="col2Label">Check-In <span class="chevron">&#9662;</span></span>
-              <div class="col-value" id="col2Val"><span class="date-large">18</span> <span class="date-month">Oct'26</span></div>
-              <span class="col-sub" id="col2Sub">Sunday</span>
+            <!-- Box 2: Start Date -->
+            <div class="zivo-input-box" id="box2">
+              <span class="zivo-label" id="box2Label"><span class="zivo-label-icon">&#128197;</span> Check-In Date</span>
+              <input type="date" id="zivoDateStart" class="zivo-native-date" aria-label="Check-In Date">
+              <p class="zivo-field-hint" id="box2Hint">Select arrival date</p>
             </div>
 
-            <!-- Col 3: Check-Out / Return -->
-            <div class="booking-col" id="col3">
-              <span class="col-label" id="col3Label">Check-Out <span class="chevron">&#9662;</span></span>
-              <div class="col-value" id="col3Val"><span class="date-large">20</span> <span class="date-month">Oct'26</span></div>
-              <span class="col-sub" id="col3Sub">Tuesday</span>
+            <!-- Box 3: End Date -->
+            <div class="zivo-input-box" id="box3">
+              <span class="zivo-label" id="box3Label"><span class="zivo-label-icon">&#128197;</span> Check-Out Date</span>
+              <input type="date" id="zivoDateEnd" class="zivo-native-date" aria-label="Check-Out Date">
+              <p class="zivo-field-hint" id="box3Hint">Select departure date</p>
             </div>
 
-            <!-- Col 4: Guests / Class -->
-            <div class="booking-col" id="col4">
-              <span class="col-label" id="col4Label">Rooms & Guests <span class="chevron">&#9662;</span></span>
-              <div class="col-value" id="col4Val">1 Room, 2 Adults</div>
-              <span class="col-sub" id="col4Sub">Economy / Deluxe</span>
+            <!-- Box 4: Select / Options -->
+            <div class="zivo-input-box" id="box4">
+              <span class="zivo-label" id="box4Label"><span class="zivo-label-icon">&#128101;</span> Rooms &amp; Guests</span>
+              <select id="zivoOptionSelect" class="zivo-native-select" aria-label="Rooms and Guests">
+                <option value="1 Room, 2 Guests">1 Room, 2 Guests (Standard)</option>
+                <option value="1 Room, 1 Guest">1 Room, 1 Guest (Solo)</option>
+                <option value="2 Rooms, 4 Guests">2 Rooms, 4 Guests (Family)</option>
+                <option value="3+ Rooms">3+ Rooms (Group Deals)</option>
+              </select>
+              <p class="zivo-field-hint" id="box4Hint">Economy &bull; Deluxe &bull; Suites</p>
             </div>
           </div>
 
-          <!-- Card Bottom: Recent Search & Search Button -->
-          <div class="booking-card-footer">
-            <div class="recent-searches">
-              <span>Last Search:</span>
-              <span class="recent-item" id="recentSearchItem">Z Bliss Suites, BKC &bull; 18 Oct - 20 Oct</span>
+          <!-- Deck Footer -->
+          <div class="zivo-deck-footer">
+            <div class="zivo-perks">
+              <span class="zivo-perk-item"><span>&#10003;</span> Transparent Pricing</span>
+              <span class="zivo-perk-item"><span>&#10003;</span> Verified Travel Partners</span>
+              <span class="zivo-perk-item"><span>&#10003;</span> No Hidden Convenience Fees</span>
             </div>
-            <button type="button" class="btn-search" id="bookingSearchBtn" aria-label="Search Bookings">SEARCH</button>
+            <button type="button" class="btn-zivo-action" id="zivoSearchBtn">
+              <span>&#9889;</span>
+              <span id="zivoSearchBtnText">Check Availability</span>
+            </button>
           </div>
         </div>
 
         <!-- Preview Notice -->
-        <div class="booking-preview-notice">
+        <div class="zivo-preview-pill">
           <span>&#9889;</span>
-          <span>Preview of upcoming ZivoPlus booking engine. Platform actively under development.</span>
-          <a href="#about" class="notice-link">Learn More &rarr;</a>
+          <span>ZivoPlus digital booking engine is currently under development by Zivo Technologies Solutions Private Limited.</span>
+          <a href="#about">Learn More &rarr;</a>
         </div>
       </div>
 
