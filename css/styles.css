@@ -289,6 +289,16 @@ input, textarea, select {
   color: var(--color-white);
 }
 
+.logo-img {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  display: block;
+  flex-shrink: 0;
+}
+
 .logo-text {
   font-size: 1.5rem;
   font-weight: var(--font-weight-bold);
