@@ -104,17 +104,117 @@
     <div class="hero-content">
       <div class="hero-status">
         <span class="dot"></span>
-        Platform Under Development
+        Platform Under Development &bull; Pre-Launch Preview
       </div>
 
-      <h1>Your Next Stay <span class="highlight">Starts Here.</span></h1>
+      <h1>Your Next Journey <span class="highlight">Starts Here.</span></h1>
 
       <p class="hero-description">
-        Discover a smarter approach to hotel bookings and travel. ZivoPlus is building a digital platform designed to connect travellers, businesses, and travel partners with accommodation opportunities across destinations.
+        Experience a smarter, unified way to book Hotels, Flights, Trains, and Buses. ZivoPlus is building an all-in-one travel technology platform for travellers and partners.
       </p>
 
-      <div class="hero-launch-label">
-        Coming Soon &mdash; Our Platform Is Under Development
+      <!-- MakeMyTrip / Modern Travel Style Search Widget -->
+      <div class="booking-widget">
+        <!-- Floating Tabs -->
+        <div class="booking-tabs" role="tablist" aria-label="Booking Categories">
+          <button class="booking-tab active" data-tab="hotels" role="tab" aria-selected="true">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16M9 7h1M14 7h1M9 11h1M14 11h1M9 15h1M14 15h1M10 21v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3"/></svg>
+            <span>Hotels</span>
+          </button>
+          <button class="booking-tab" data-tab="flights" role="tab" aria-selected="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3.5c-.5-.5-2.5 0-4 1.5L13.5 8.5 5.3 6.7c-.9-.2-1.7.1-2.1.8-.5.7-.3 1.7.4 2.2l6.5 4.9-3.2 3.2-2.3-.5c-.4-.1-.8.1-1.1.4-.4.4-.4 1 0 1.4l2.1 2.1c.4.4 1 .4 1.4 0 .3-.3.5-.7.4-1.1l-.5-2.3 3.2-3.2 4.9 6.5c.5.7 1.5.9 2.2.4.7-.4 1-1.2.8-2.1z"/></svg>
+            <span>Flights</span>
+          </button>
+          <button class="booking-tab" data-tab="villas" role="tab" aria-selected="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <span>Villas & Homestays</span>
+          </button>
+          <button class="booking-tab" data-tab="packages" role="tab" aria-selected="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M4.93 19.07 19.07 4.93"/><circle cx="12" cy="12" r="10"/></svg>
+            <span>Holiday Packages</span>
+          </button>
+          <button class="booking-tab" data-tab="trains" role="tab" aria-selected="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="16" rx="2"/><path d="M4 11h16M12 3v8M8 15h.01M16 15h.01M7 19l-3 3M17 19l3 3"/></svg>
+            <span>Trains</span>
+          </button>
+          <button class="booking-tab" data-tab="buses" role="tab" aria-selected="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6z"/><path d="M4 11h16M4 6h16M7 15h2M15 15h2M6 19v2M18 19v2"/></svg>
+            <span>Buses</span>
+          </button>
+          <button class="booking-tab" data-tab="cabs" role="tab" aria-selected="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.5 2.8C2 11 2 11.3 2 11.6V16c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/><path d="M9 5h6"/></svg>
+            <span>Cabs</span>
+          </button>
+        </div>
+
+        <!-- Search Card -->
+        <div class="booking-card">
+          <!-- Sub-bar -->
+          <div class="booking-subbar">
+            <div class="booking-radios" id="bookingRadios">
+              <label class="booking-radio-option">
+                <input type="radio" name="bookingOption" checked>
+                <span>Upto 4 Rooms</span>
+              </label>
+              <label class="booking-radio-option">
+                <input type="radio" name="bookingOption">
+                <span>Group Deals</span>
+                <span class="badge-new">NEW</span>
+              </label>
+            </div>
+            <div class="booking-subbar-tagline">
+              <span id="bookingSubbarText">Book Domestic & International Properties Online</span>
+              <span class="badge-dev">Under Development</span>
+            </div>
+          </div>
+
+          <!-- Dynamic Booking Grid (4 Columns) -->
+          <div class="booking-grid" id="bookingGrid">
+            <!-- Col 1: Destination / Origin -->
+            <div class="booking-col" id="col1">
+              <span class="col-label" id="col1Label">City, Property Name Or Location</span>
+              <div class="col-value" id="col1Val">Z Bliss Suites, BKC</div>
+              <span class="col-sub" id="col1Sub">Mumbai, India</span>
+            </div>
+
+            <!-- Col 2: Check-In / Departure -->
+            <div class="booking-col" id="col2">
+              <span class="col-label" id="col2Label">Check-In <span class="chevron">&#9662;</span></span>
+              <div class="col-value" id="col2Val"><span class="date-large">18</span> <span class="date-month">Oct'26</span></div>
+              <span class="col-sub" id="col2Sub">Sunday</span>
+            </div>
+
+            <!-- Col 3: Check-Out / Return -->
+            <div class="booking-col" id="col3">
+              <span class="col-label" id="col3Label">Check-Out <span class="chevron">&#9662;</span></span>
+              <div class="col-value" id="col3Val"><span class="date-large">20</span> <span class="date-month">Oct'26</span></div>
+              <span class="col-sub" id="col3Sub">Tuesday</span>
+            </div>
+
+            <!-- Col 4: Guests / Class -->
+            <div class="booking-col" id="col4">
+              <span class="col-label" id="col4Label">Rooms & Guests <span class="chevron">&#9662;</span></span>
+              <div class="col-value" id="col4Val">1 Room, 2 Adults</div>
+              <span class="col-sub" id="col4Sub">Economy / Deluxe</span>
+            </div>
+          </div>
+
+          <!-- Card Bottom: Recent Search & Search Button -->
+          <div class="booking-card-footer">
+            <div class="recent-searches">
+              <span>Last Search:</span>
+              <span class="recent-item" id="recentSearchItem">Z Bliss Suites, BKC &bull; 18 Oct - 20 Oct</span>
+            </div>
+            <button type="button" class="btn-search" id="bookingSearchBtn" aria-label="Search Bookings">SEARCH</button>
+          </div>
+        </div>
+
+        <!-- Preview Notice -->
+        <div class="booking-preview-notice">
+          <span>&#9889;</span>
+          <span>Preview of upcoming ZivoPlus booking engine. Platform actively under development.</span>
+          <a href="#about" class="notice-link">Learn More &rarr;</a>
+        </div>
       </div>
 
       <div class="hero-buttons">
@@ -525,6 +625,28 @@
       </div>
     </div>
   </footer>
+
+
+  <!-- ==================== BOOKING MODAL (COMING SOON) ==================== -->
+  <div class="booking-modal-overlay" id="bookingModalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="booking-modal">
+      <button class="booking-modal-close" id="bookingModalClose" aria-label="Close modal">&times;</button>
+      <div class="booking-modal-icon">
+        <img src="images/logo-64.png" alt="ZivoPlus">
+      </div>
+      <h3 id="modalTitle">Booking Engine Coming Soon!</h3>
+      <p>
+        The ZivoPlus unified booking platform for <strong>Hotels, Flights, Trains, and Buses</strong> is currently under active engineering by <strong>Zivo Technologies Solutions Private Limited</strong>.
+      </p>
+      <p style="font-size: 0.88rem; color: #64748b; margin-top: -10px;">
+        We are completing supplier integrations and testing inventory connectivity. Stay tuned for our live rollout!
+      </p>
+      <div class="booking-modal-actions">
+        <a href="mailto:admin@zivoplus.com?subject=Travel%20Partnership%20Enquiry" class="btn btn-primary" style="padding: 12px 28px;">Partner Enquiries</a>
+        <button type="button" class="btn btn-outline" id="bookingModalDismiss" style="padding: 12px 24px; color: #1e293b; border-color: #cbd5e1;">Got It</button>
+      </div>
+    </div>
+  </div>
 
 
   <!-- JavaScript -->
